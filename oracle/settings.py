@@ -25,7 +25,7 @@ SECRET_KEY = 'nat67kw5zm#u)_48(bba3rqpj=p(184vr$li6s6wnh&vq$xitu'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.fantasyoracle.com']
+ALLOWED_HOSTS = ['.fantasyoracle.com', '127.0.0.1']
 
 
 # Application definition
