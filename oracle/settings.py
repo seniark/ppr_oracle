@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['.fantasyoracle.com']
 # Application definition
 
 INSTALLED_APPS = [
+    'football',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
