@@ -25,7 +25,7 @@ SECRET_KEY = 'nat67kw5zm#u)_48(bba3rqpj=p(184vr$li6s6wnh&vq$xitu'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.fantasyoracle.com', '127.0.0.1']
+ALLOWED_HOSTS = ['.fantasyoracle.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -76,8 +76,12 @@ WSGI_APPLICATION = 'oracle.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'nfldb',
+        'USER': 'nfldb',
+        'PASSWORD': 'nfldb',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
@@ -117,5 +121,5 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = '/static/'

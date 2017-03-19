@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Teams</h1>
+
+{% if team_list %}
+<ul>
+	{% for team in team_list %}
+	<li>
+		<a href="#">{{ team }}</a>
+	</li>
+	{% endfor %}
+</ul>
+{% else %}
+<p>There are no teams!</p>
+{% endif %}
+
+{% endblock %}
