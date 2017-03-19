@@ -1,0 +1,24 @@
+{% extends "positions/template.html" %}
+
+{% block poscontent %}
+	<table class="table table-striped">
+		<tr>
+			<th>Player Name</th>
+			<th>Passing Yards</th>
+			<th>Passing Attempts</th>
+			<th>Passing Completions</th>
+			<th>Interceptions</th>
+			<th>Sacks</th>
+		</tr>
+		{% for pp in stats %}
+		<tr>
+			<td>{{ pp.player }}</td>
+			<td>{{ pp.passing_yds }}</td>
+			<td>{{ pp.passing_att }}</td>
+			<td>{{ pp.passing_cmp }}</td>
+			<td>{{ pp.passing_int }}</td>
+			<td>{{ pp.passing_sk }}</td>
+		</tr>
+		{% endfor %}
+	</table>
+{% endblock %}

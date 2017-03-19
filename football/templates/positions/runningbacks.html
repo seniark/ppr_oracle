@@ -1,0 +1,28 @@
+{% extends "positions/template.html" %}
+
+{% block poscontent %}
+	<table class="table table-striped">
+		<tr>
+			<th>Player Name</th>
+			<th>Receiving Yards</th>
+			<th>Receiving Targets</th>
+			<th>Receiving TDs</th>
+			<th>Rushing Yards</th>
+			<th>Russing Attempts</th>
+			<th>Rushing TDs</th>
+			<th>Russing Loss Yards</th>
+		</tr>
+		{% for pp in stats %}
+		<tr>
+			<td>{{ pp.player }}</td>
+			<td>{{ pp.receiving_yds }}</td>
+			<td>{{ pp.receiving_tar }}</td>
+			<td>{{ pp.receiving_tds }}</td>
+			<td>{{ pp.rushing_yds }}</td>
+			<td>{{ pp.rushing_att }}</td>
+			<td>{{ pp.rushing_tds }}</td>
+			<td>{{ pp.rushing_loss_yds }}</td>
+		</tr>
+		{% endfor %}
+	</table>
+{% endblock %}

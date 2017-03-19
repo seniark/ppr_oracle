@@ -1,38 +1,12 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<div class="page-header">
-	<h1>Welcome to the Fantasy Oracle! <small>A fantasy football PPR projector</small></h1>
+
+<div class="jumbotron">
+	<div class="container">
+		<h1>Welcome to the Fantasy Oracle!</h1>
+		<p>A fantasy football PPR projector</p>
+	</div>
 </div>
 
-{% if stats %}
-	<table class="table table-striped">
-		<tr>
-			<th>Player Name</th>
-			<th>Passing Yards</th>
-		</tr>
-		{% for pp in stats %}
-		<tr>
-			<td>{{ pp.player }}</td>
-			<td>{{ pp.passing_yds }}</td>
-		</tr>
-		{% endfor %}
-	</table>
-
-	<div class="pagination">
-		<span class="step-links">
-			{% if stats.has_previous %}
-				<a href="?page={{ stats.previous_page_number }}">previous</a>
-			{% endif %}
-
-			<span class="current">
-				Page {{ stats.number }} of {{ stats.paginator.num_pages }}
-			</span>
-
-			{% if stats.has_next %}
-				<a href="?page={{ stats.next_page_number }}">next</a>
-			{% endif %}
-		</span>
-	</div>
-{% endif %}
 {% endblock %}

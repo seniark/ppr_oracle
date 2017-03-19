@@ -1,0 +1,67 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div class="page-header">
+	<h1>{{ position }} <small>{{ year }} Season</small></h1>
+</div>
+
+{% if stats %}
+	<div class="btn-group">
+		<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			{{ year }} <span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu">
+			<li><a href="{% url urlId 2016 phase week %}">2016</a></li>
+			<li><a href="{% url urlId 2015 phase week %}">2015</a></li>
+			<li><a href="{% url urlId 2014 phase week %}">2014</a></li>
+			<li><a href="{% url urlId 2013 phase week %}">2013</a></li>
+			<li><a href="{% url urlId 2012 phase week %}">2012</a></li>
+			<li><a href="{% url urlId 2011 phase week %}">2011</a></li>
+			<li><a href="{% url urlId 2010 phase week %}">2010</a></li>
+			<li><a href="{% url urlId 2009 phase week %}">2009</a></li>
+		</ul>
+	</div>
+	<div class="btn-group">
+		<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			{{ phase }} <span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu">
+			<li><a href="{% url urlId year 'All' week %}">All</a></li>
+			<li><a href="{% url urlId year 'Preseason' week %}">Preseason</a></li>
+			<li><a href="{% url urlId year 'Regular' week %}">Regular</a></li>
+			<li><a href="{% url urlId year 'Postseason' week %}">Postseason</a></li>
+		</ul>
+	</div>
+
+	{% if weeks %}
+	<div class="btn-group">
+		<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			Week {{ week }} <span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu">
+			{% for week in weeks %}
+			<li><a href="{% url urlId year phase week%}">Week {{ week }}</a></li>
+			{% endfor %}
+		</ul>
+	</div>
+	{% endif %}
+
+	{% block poscontent %}{% endblock %}
+
+	<div class="pagination">
+		<span class="step-links">
+			{% if stats.has_previous %}
+				<a href="?page={{ stats.previous_page_number }}">previous</a>
+			{% endif %}
+
+			<span class="current">
+				Page {{ stats.number }} of {{ stats.paginator.num_pages }}
+			</span>
+
+			{% if stats.has_next %}
+				<a href="?page={{ stats.next_page_number }}">next</a>
+			{% endif %}
+		</span>
+	</div>
+{% endif %}
+{% endblock %}
