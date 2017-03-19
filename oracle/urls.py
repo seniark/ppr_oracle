@@ -16,9 +16,13 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.generic import RedirectView
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^football/', include('football.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^$', RedirectView.as_view(url='/football/', permanent=True)),
 ]
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
