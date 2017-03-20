@@ -4,11 +4,11 @@
 	<table class="table table-striped">
 		<tr>
 			<th>Player Name</th>
-			<th>Passing Yards</th>
-			<th>Passing Attempts</th>
-			<th>Passing Completions</th>
-			<th>Interceptions</th>
-			<th>Sacks</th>
+			<th><a href="{{ request.path }}?sort=passing_yds">Passing Yards</a></th>
+			<th><a href="{{ request.path }}?sort=passing_att">Passing Attempts</a></th>
+			<th><a href="{{ request.path }}?sort=passing_cmp">Passing Completions</a></th>
+			<th><a href="{{ request.path }}?sort=passing_int">Interceptions</a></th>
+			<th><a href="{{ request.path }}?sort=passing_sk">Sacks</a></th>
 		</tr>
 		{% for pp in stats %}
 		<tr>

@@ -4,9 +4,9 @@
 	<table class="table table-striped">
 		<tr>
 			<th>Player Name</th>
-			<th>Receiving Yards</th>
-			<th>Receiving Targets</th>
-			<th>Receiving TDs</th>
+			<th><a href="{{ request.path }}?sort=receiving_yds">Receiving Yards</a></th>
+			<th><a href="{{ request.path }}?sort=receiving_tar">Receiving Targets</a></th>
+			<th><a href="{{ request.path }}?sort=receiving_tds">Receiving TDs</a></th>
 		</tr>
 		{% for pp in stats %}
 		<tr>

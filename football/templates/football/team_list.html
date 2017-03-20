@@ -3,14 +3,25 @@
 {% block content %}
 <h1>Teams</h1>
 
+{% load static %}
 {% if team_list %}
-<ul>
 	{% for team in team_list %}
-	<li>
-		<a href="#">{{ team }}</a>
-	</li>
+		{% if team.team_id != "UNK" %}
+		{% if forloop.counter0|divisibleby:4 %}
+		<div clas="row">
+		{% endif %}
+			<div class="col-xs-6 col-md-3">
+				<a href="#" class="thumbnail">
+					{% with 'images/'|add:team.name|add:'.png' as img_path %}
+					<img class="img-thumbnail" src="{% static img_path %}" alt="{{ team.name }}">
+					{% endwith %}
+				</a>
+			</div>
+		{% if forloop.counter|divisibleby:4  %}
+		</div>
+		{% endif %}
+		{% endif %}
 	{% endfor %}
-</ul>
 {% else %}
 <p>There are no teams!</p>
 {% endif %}
