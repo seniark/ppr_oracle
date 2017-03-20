@@ -1,1 +1,6 @@
 body { padding-top: 70px; }
+
+.mynavbar-right {
+	float: right !important;
+	margin-right: -1px;
+}

@@ -14,7 +14,7 @@
 	</head>
 
 	<body>
-		<nav class="navbar navbar-default navbar-fixed-top">
+		<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container-fluid">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#football-navbar-collapse" aria-expand="false">
@@ -27,8 +27,8 @@
 				</div> <!-- ./navbar-header -->
 				<div class="collapse navbar-collapse" id="football-navbar-collapse">
 					<ul class="nav navbar-nav">
-						<li><a href="{% url 'index' %}">Home</a></li>
-						<li class='dropdown'>
+						<li {% if page == 'home' %}class="active"{% endif %}><a href="{% url 'index' %}">Home</a></li>
+						<li class="dropdown{% if page == 'positions' %} active{% endif %}">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Positions <span class="caret"></span></a>
 							<ul class="dropdown-menu">
 								<li><a href="{% url 'pos-qb' %}">Quarterbacks</a></li>
@@ -36,9 +36,38 @@
 								<li><a href="{% url 'pos-wr' %}">Wide Receivers</a></li>
 							</ul>
 						</li>
-						<li><a href="{% url 'teams' %}">Teams</a></li>
-						<li><a href="{% url 'players' %}">Players</a></li>
+						<li {% if team_list %}class="active"{% endif %}><a href="{% url 'teams' %}">Teams</a></li>
+						<li {% if player_list %}class="active"{% endif %}><a href="{% url 'players' %}">Players</a></li>
 					</ul>
+					{% if user.is_authenticated %}
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							<a href="#" class=dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+								<span><i class="glyphicon glyphicon-user"></i></span> {{ user.get_username }}<span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a href="#">Profile</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a href="{% url 'logout' %}?next={{ request.get_full_path }}">Logout</a></li>
+							</ul>
+						</li>
+					</ul>
+					{% else %}
+					<form id="signin" class="navbar-form navbar-right" role="form" method="post" action="{% url 'login' %}">
+						{% csrf_token %}
+						<div class="input-group">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+							<input id="id_username" class="form-control" name="username" value="" placeholder="Username">
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+							<input id="password" type="password" class="form-control" name="password" value="" placeholder="Password">
+						</div>
+
+						<button type="submit" class="btn btn-default">Login</button>
+						<input type="hidden" name="next" value="{{ request.get_full_path }}" />
+					</form>
+					{% endif %}
 				</div> <!-- ./navbar-collapse -->
 			</div> <!-- /.container-fluid -->
 		</nav>
