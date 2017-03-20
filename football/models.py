@@ -1,4 +1,5 @@
 from django.db import models
+from collections import defaultdict
 
 class Team(models.Model):
     # Model Fields
@@ -12,6 +13,41 @@ class Team(models.Model):
 
     def __str__(self):
         return '%s %s' % (self.city, self.name)
+
+    def get_qbs(self):
+        return self.player_set.filter(position__exact='QB')
+
+    def get_players(self):
+        players = []
+        players.append(self.player_set.filter(position__exact='QB'))
+        players.append(self.player_set.filter(position__exact='RB'))
+        players.append(self.player_set.filter(position__exact='WR'))
+        players.append(self.player_set.filter(position__exact='TE'))
+        players.append(self.player_set.filter(position__exact='K'))
+        players.append(self.player_set.filter(position__exact='C'))
+        players.append(self.player_set.filter(position__exact='CB'))
+        players.append(self.player_set.filter(position__exact='DB'))
+        players.append(self.player_set.filter(position__exact='DE'))
+        players.append(self.player_set.filter(position__exact='DL'))
+        players.append(self.player_set.filter(position__exact='FB'))
+        players.append(self.player_set.filter(position__exact='FS'))
+        players.append(self.player_set.filter(position__exact='G'))
+        players.append(self.player_set.filter(position__exact='ILB'))
+        players.append(self.player_set.filter(position__exact='LB'))
+        players.append(self.player_set.filter(position__exact='LS'))
+        players.append(self.player_set.filter(position__exact='MLB'))
+        players.append(self.player_set.filter(position__exact='NT'))
+        players.append(self.player_set.filter(position__exact='OG'))
+        players.append(self.player_set.filter(position__exact='OL'))
+        players.append(self.player_set.filter(position__exact='OLB'))
+        players.append(self.player_set.filter(position__exact='OT'))
+        players.append(self.player_set.filter(position__exact='P'))
+        players.append(self.player_set.filter(position__exact='SAF'))
+        players.append(self.player_set.filter(position__exact='SS'))
+        players.append(self.player_set.filter(position__exact='T'))
+        players.append(self.player_set.filter(position__exact='UNK'))
+
+        return players
 
 class Player(models.Model):
 

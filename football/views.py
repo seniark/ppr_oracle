@@ -11,7 +11,7 @@ from .models import Team, Player
 # Create your views here.
 def index(request):
     """ Home page of site """
-    return render(request, 'index.html')
+    return render(request, 'index.html', { 'page': 'home' })
 
 def page_not_found(request):
     """ 404 Error Page """
@@ -70,6 +70,7 @@ def players_quarterbacks(request, year="2016", phase="All", week="All"):
     return render(request, 'positions/quarterbacks.html',
             { 'position': 'Quarterbacks',
                 'urlId': 'pos-qb',
+                'page': 'positions',
                 'year': year,
                 'phase': phase,
                 'weeks': weeks,
@@ -91,6 +92,7 @@ def players_runningbacks(request, year="2016", phase="All", week="All"):
     return render(request, 'positions/runningbacks.html', 
             { 'position': 'Running Backs',
                 'urlId': 'pos-rb',
+                'page': 'positions',
                 'year': year,
                 'phase': phase,
                 'weeks': weeks,
@@ -112,6 +114,7 @@ def players_widereceivers(request, year="2016", phase="All", week="All"):
     return render(request, 'positions/widereceivers.html', 
             { 'position': 'Wide Receivers',
                 'urlId': 'pos-wr',
+                'page': 'positions',
                 'year': year,
                 'phase': phase,
                 'weeks': weeks,
@@ -123,3 +126,6 @@ class TeamListView(generic.ListView):
 
 class PlayerListView(generic.ListView):
     model = Player
+
+class TeamDetailView(generic.DetailView):
+    model = Team
