@@ -4,13 +4,13 @@
 	<table class="table table-striped">
 		<tr>
 			<th>Player Name</th>
-			<th>Receiving Yards</th>
-			<th>Receiving Targets</th>
-			<th>Receiving TDs</th>
-			<th>Rushing Yards</th>
-			<th>Russing Attempts</th>
-			<th>Rushing TDs</th>
-			<th>Russing Loss Yards</th>
+			<th><a href="{{ request.path }}?sort=receiving_yds">Receiving Yards</a></th>
+			<th><a href="{{ request.path }}?sort=receiving_tar">Receiving Targets</a></th>
+			<th><a href="{{ request.path }}?sort=receiving_tds">Receiving TDs</a></th>
+			<th><a href="{{ request.path }}?sort=rushing_yds">Rushing Yards</a></th>
+			<th><a href="{{ request.path }}?sort=rushing_att">Rushing Attempts</a></th>
+			<th><a href="{{ request.path }}?sort=rushing_tds">Rushing TDs</a></th>
+			<th><a href="{{ request.path }}?sort=rushing_loss_yds">Rushing Loss Yards</a></th>
 		</tr>
 		{% for pp in stats %}
 		<tr>
