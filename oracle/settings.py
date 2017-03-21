@@ -32,8 +32,12 @@ ALLOWED_HOSTS = ['.fantasyoracle.com', '127.0.0.1', 'localhost']
 
 INSTALLED_APPS = [
     'football',
-    'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.admin',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -125,3 +129,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/'
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # 'allauth' specific auth methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+SITE_ID = 1

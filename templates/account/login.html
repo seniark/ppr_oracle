@@ -1,0 +1,57 @@
+{% extends "base_generic.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+{% load addcss %}
+
+{% block content %}
+
+<div class="container">
+
+	<div class="container-center" style="padding-top:80px">
+	
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<div class="panel-title">Log in</div>
+			</div>
+
+			{% if user.is_authenticated %}
+				<p>You are already logged in!</p>
+			{% else %}
+				<div style="padding-top:30px" class="panel-body">
+
+					<form class="login" method="POST" action="{% url 'account_login' %}">
+						{% csrf_token %}
+						
+						<div class="form-group">
+							{{ form.login.errors }}
+							<div class="input-group">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+								{{ form.login|addcss:"form-control" }}
+							</div>
+						</div>
+
+						<div class="form-group">
+							{{ form.password.errors }}
+							<div class="input-group">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+								{{ form.password|addcss:"form-control" }}
+							</div>
+						</div>
+
+						{% if redirect_field_value %}
+							<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+						{% endif %}
+
+						<button class="primaryAction" type="submit" style="float:right">{% trans "Log In" %}</button>
+
+					</form>
+				</div>
+			{% endif %} 
+		</div>
+	</div>
+
+</div>
+
+
+{% endblock %}

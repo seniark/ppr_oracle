@@ -39,35 +39,24 @@
 						<li {% if team_list %}class="active"{% endif %}><a href="{% url 'teams' %}">Teams</a></li>
 						<li {% if player_list %}class="active"{% endif %}><a href="{% url 'players' %}">Players</a></li>
 					</ul>
-					{% if user.is_authenticated %}
 					<ul class="nav navbar-nav navbar-right">
+					{% if user.is_authenticated %}
 						<li class="dropdown">
 							<a href="#" class=dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-								<span><i class="glyphicon glyphicon-user"></i></span> {{ user.get_username }}<span class="caret"></span>
+								{% load account %}
+								<span><i class="glyphicon glyphicon-user"></i></span> {% user_display user %}<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">
 								<li><a href="#">Profile</a></li>
 								<li role="separator" class="divider"></li>
-								<li><a href="{% url 'logout' %}?next={{ request.get_full_path }}">Logout</a></li>
+								<li><a href="{% url 'account_logout' %}?next={{ request.path }}">Logout</a></li>
 							</ul>
 						</li>
-					</ul>
 					{% else %}
-					<form id="signin" class="navbar-form navbar-right" role="form" method="post" action="{% url 'login' %}">
-						{% csrf_token %}
-						<div class="input-group">
-							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-							<input id="id_username" class="form-control" name="username" value="" placeholder="Username">
-						</div>
-						<div class="input-group">
-							<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-							<input id="password" type="password" class="form-control" name="password" value="" placeholder="Password">
-						</div>
-
-						<button type="submit" class="btn btn-default">Login</button>
-						<input type="hidden" name="next" value="{{ request.get_full_path }}" />
-					</form>
+					<li><a href="{% url 'account_login' %}?next={{ request.path }}">Login</a></li>
+					<li><a href="{% url 'account_signup' %}?next={{ request.path }}">Sign Up</a></li>
 					{% endif %}
+					</ul>
 				</div> <!-- ./navbar-collapse -->
 			</div> <!-- /.container-fluid -->
 		</nav>
