@@ -1,0 +1,38 @@
+{% extends "base_generic.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+{% load addcss %}
+
+{% block content %}
+
+<div class="container">
+
+	<div class="container-center" style="padding-top:80px">
+	
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<div class="panel-title">Confirm Log Out</div>
+			</div>
+
+			<div style="padding-top:30px" class="panel-body">
+
+				<p>Are you sure you want to log out?</p>
+
+				<form class="login" method="POST" action="{% url 'account_logout' %}">
+					{% csrf_token %}
+					
+					{% if redirect_field_value %}
+						<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+					{% endif %}
+
+					<button class="primaryAction" type="submit" style="float:right">{% trans "Log Out" %}</button>
+
+				</form>
+			</div>
+	</div>
+
+</div>
+
+
+{% endblock %}

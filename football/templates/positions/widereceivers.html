@@ -1,20 +1,18 @@
 {% extends "positions/template.html" %}
 
 {% block poscontent %}
-	<table class="table table-striped">
-		<tr>
-			<th>Player Name</th>
-			<th><a href="{{ request.path }}?sort=receiving_yds">Receiving Yards</a></th>
-			<th><a href="{{ request.path }}?sort=receiving_tar">Receiving Targets</a></th>
-			<th><a href="{{ request.path }}?sort=receiving_tds">Receiving TDs</a></th>
-		</tr>
-		{% for pp in stats %}
-		<tr>
-			<td>{{ pp.player }}</td>
-			<td>{{ pp.receiving_yds }}</td>
-			<td>{{ pp.receiving_tar }}</td>
-			<td>{{ pp.receiving_tds }}</td>
-		</tr>
-		{% endfor %}
-	</table>
+	<tr>
+		<th>Player Name</th>
+		<th><a href="{{ request.path }}?sort=receiving_yds">Receiving Yards</a></th>
+		<th><a href="{{ request.path }}?sort=receiving_tar">Receiving Targets</a></th>
+		<th><a href="{{ request.path }}?sort=receiving_tds">Receiving TDs</a></th>
+	</tr>
+	{% for pp in stats %}
+	<tr>
+		<td>{{ pp.player }}</td>
+		<td>{{ pp.receiving_yds }}</td>
+		<td>{{ pp.receiving_tar }}</td>
+		<td>{{ pp.receiving_tds }}</td>
+	</tr>
+	{% endfor %}
 {% endblock %}

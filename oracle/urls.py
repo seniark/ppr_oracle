@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^football/', include('football.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^accounts/', include('django.contrib.auth.urls')),
+    url(r'^accounts/', include('allauth.urls')),
     url(r'^$', RedirectView.as_view(url='/football/', permanent=True)),
 ]
 

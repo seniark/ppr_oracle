@@ -1,24 +1,22 @@
 {% extends "positions/template.html" %}
 
 {% block poscontent %}
-	<table class="table table-striped">
-		<tr>
-			<th>Player Name</th>
-			<th><a href="{{ request.path }}?sort=passing_yds">Passing Yards</a></th>
-			<th><a href="{{ request.path }}?sort=passing_att">Passing Attempts</a></th>
-			<th><a href="{{ request.path }}?sort=passing_cmp">Passing Completions</a></th>
-			<th><a href="{{ request.path }}?sort=passing_int">Interceptions</a></th>
-			<th><a href="{{ request.path }}?sort=passing_sk">Sacks</a></th>
-		</tr>
-		{% for pp in stats %}
-		<tr>
-			<td>{{ pp.player }}</td>
-			<td>{{ pp.passing_yds }}</td>
-			<td>{{ pp.passing_att }}</td>
-			<td>{{ pp.passing_cmp }}</td>
-			<td>{{ pp.passing_int }}</td>
-			<td>{{ pp.passing_sk }}</td>
-		</tr>
-		{% endfor %}
-	</table>
+	<tr>
+		<th>Player Name</th>
+		<th><a href="{{ request.path }}?sort=passing_yds">Passing Yards</a></th>
+		<th><a href="{{ request.path }}?sort=passing_att">Passing Attempts</a></th>
+		<th><a href="{{ request.path }}?sort=passing_cmp">Passing Completions</a></th>
+		<th><a href="{{ request.path }}?sort=passing_int">Interceptions</a></th>
+		<th><a href="{{ request.path }}?sort=passing_sk">Sacks</a></th>
+	</tr>
+	{% for pp in stats %}
+	<tr>
+		<td>{{ pp.player }}</td>
+		<td>{{ pp.passing_yds }}</td>
+		<td>{{ pp.passing_att }}</td>
+		<td>{{ pp.passing_cmp }}</td>
+		<td>{{ pp.passing_int }}</td>
+		<td>{{ pp.passing_sk }}</td>
+	</tr>
+	{% endfor %}
 {% endblock %}

@@ -1,0 +1,77 @@
+{% extends "base_generic.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+{% load addcss %}
+
+{% block content %}
+
+<div class="container">
+
+	<div class="container-center" style="padding-top:80px">
+	
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<div class="panel-title">Create Account</div>
+			</div>
+
+			<div style="padding-top:30px" class="panel-body">
+
+				<div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+
+				<form class="login" method="POST" action="{% url 'account_signup' %}">
+					{% csrf_token %}
+					
+					<div class="form-group">
+						{{ form.username.errors }}
+						<div class="input-group">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+							{{ form.username|addcss:"form-control" }}
+							<span class="input-group-addon"><i class="glyphicon glyphicon-star"></i></span>
+						</div>
+					</div>
+
+					<div class="form-group">
+						{{ form.email.errors }}
+						<div class="input-group">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+							{{ form.email|addcss:"form-control" }}
+						</div>
+					</div>
+
+					<div class="form-group">
+						{{ form.password1.errors }}
+						<div class="input-group">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+							{{ form.password1|addcss:"form-control" }}
+							<span class="input-group-addon"><i class="glyphicon glyphicon-star"></i></span>
+						</div>
+					</div>
+
+					<div class="form-group">
+						{{ form.password2.errors }}
+						<div class="input-group">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+							{{ form.password2|addcss:"form-control" }}
+							<span class="input-group-addon"><i class="glyphicon glyphicon-star"></i></span>
+						</div>
+					</div>
+
+					{% if redirect_field_value %}
+						<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+					{% endif %}
+
+					<div class="input-group">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-star"></i></span>
+						<small>Required</small>
+					</div>
+					<button class="primaryAction" type="submit" style="float:right">{% trans "Sign Up" %}</button>
+
+				</form>
+			</div>
+	</div>
+
+</div>
+
+
+{% endblock %}

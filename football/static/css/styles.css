@@ -4,3 +4,10 @@ body { padding-top: 70px; }
 	float: right !important;
 	margin-right: -1px;
 }
+
+.container-center {
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
