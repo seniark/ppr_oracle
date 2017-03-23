@@ -11,7 +11,7 @@
 		{% if team.team_id != "UNK" %}
 		<div class="col-xs-6 col-md-3 col-lg-2">
 			<div class="thumbnail">
-				<a href="{% url 'team-detail' team.team_id %}">
+				<a href="{% url 'nfl-team-detail' team.team_id %}">
 					{% with 'images/'|add:team.name|add:'.png' as img_path %}
 					<img class="img-thumbnail" src="{% static img_path %}" alt="{{ team.name }}">
 					{% endwith %}

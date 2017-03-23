@@ -36,13 +36,28 @@
 								<li><a href="{% url 'pos-wr' %}">Wide Receivers</a></li>
 							</ul>
 						</li>
-						<li {% if team_list %}class="active"{% endif %}><a href="{% url 'teams' %}">Teams</a></li>
+						<li {% if team_list %}class="active"{% endif %}><a href="{% url 'nfl-teams' %}">Teams</a></li>
 						<li {% if player_list %}class="active"{% endif %}><a href="{% url 'players' %}">Players</a></li>
+
+						{% if user.is_authenticated %}
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Teams <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+
+								{% for team in user.userteam_set.all %}
+								<li><a href="{% url 'team-detail' team.id %}">{{ team }}</a></li>
+								{% endfor %}
+
+								<li role="separator" class="divider"></li>
+								<li><a href="{% url 'team-create' %}">Create Team</a></li>
+							</ul>
+						</li>
+						{% endif %}
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 					{% if user.is_authenticated %}
 						<li class="dropdown">
-							<a href="#" class=dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 								{% load account %}
 								<span><i class="glyphicon glyphicon-user"></i></span> {% user_display user %}<span class="caret"></span>
 							</a>
