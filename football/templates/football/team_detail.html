@@ -1,18 +1,12 @@
 {% extends "base_generic.html" %}
 
-{%  block content %}
-<h1>{{ team.city }} {{team.name }}</h1>
-
-<div style="margin-left:20px;margin-top:20px">
-	<h4>Players ({{ team.player_set.count }})</h4>
-
-	{% for position in team.get_players %}
-		{% for player in position %}
-			{% if forloop.counter0 == 0 %}
-				<h4>{{ player.position }}</h4>
-			{% endif %}
-			<a href="{{ player.profile_url }}">{{ player.full_name }}</a><br/>
-		{% endfor %}
-	{% endfor %}
+{% block content %}
+<div class="page-header">
+	<h1>{{ team }}</h1>
 </div>
+
+{% for player in team.userplayer_set.all %}
+	{{ player }} <br/>
+{% endfor %}
+
 {% endblock %}

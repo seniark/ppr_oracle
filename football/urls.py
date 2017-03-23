@@ -4,10 +4,14 @@ from . import views
 urlpatterns = [
 	url(r'^$', views.index, name='index'),
 
-        url(r'^teams/$',  views.TeamListView.as_view(), name='teams'),
-        url(r'^teams/(?P<pk>[A-Z]{2,3})/$', views.TeamDetailView.as_view(), name='team-detail'),
+        url(r'^nfl/$',  views.NflListView.as_view(), name='nfl-teams'),
+        url(r'^nfl/(?P<pk>[A-Z]{2,3})/$', views.NflDetailView.as_view(), name='nfl-team-detail'),
+
+        url(r'^teams/create/$', views.team_create, name='team-create'),
+        url(r'^teams/(?P<pk>\d+)/$', views.team_detail, name='team-detail'),
 
         url(r'^players/$', views.PlayerListView.as_view(), name='players'),
+        url(r'^players/(?P<player_id>\d{2}-\d{7})/addtoteam/$', views.add_player_to_team, name='add-to-team'),
 
         url(r'^players/quarterbacks/$', views.players_quarterbacks, name='pos-qb'),
         url(r'^players/quarterbacks/(?P<year>[0-9]{4})/$', views.players_quarterbacks, name='pos-qb'),

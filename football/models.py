@@ -1,5 +1,5 @@
 from django.db import models
-from collections import defaultdict
+from django.contrib.auth.models import User
 
 class Team(models.Model):
     # Model Fields
@@ -119,3 +119,29 @@ class Player(models.Model):
         return '%s, %s' % (self.last_name, self.first_name)
 
 
+class UserTeam(models.Model):
+    """ User-created fantasy teams """
+
+    team_name = models.CharField(max_length=250, help_text="Enter a name for your team")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = [ "team_name" ]
+
+    def __str__(self):
+        return self.team_name
+
+class UserPlayer(models.Model):
+    """
+    Model to map a player (from nfldb) to a user
+    created fantasy team (UserTeam)
+    """
+
+    fantasy_team = models.ForeignKey(UserTeam, on_delete=models.CASCADE)
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = [ "fantasy_team", "player" ]
+
+    def __str__(self):
+        return '%s (%s)' % (self.player, self.fantasy_team)

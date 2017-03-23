@@ -1,10 +1,12 @@
-from django.shortcuts import render
-from django.http import Http404
+from django.shortcuts import render, get_object_or_404
+from django.http import Http404, HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views import generic
+from django.contrib.auth.models import User
 import nfldb
 
-from .models import Team, Player
+from .models import Team, Player, UserTeam, UserPlayer
+from .forms import CreateTeamForm
 
 # Create one instance of the db per process
 
@@ -54,6 +56,46 @@ def players_paginate(query, page):
         stats = paginator.page(paginator.num_pages)
 
     return stats
+
+def team_create(request):
+   
+    if request.method == 'POST':
+        form = CreateTeamForm(request.POST)
+
+        # check if the form is valid
+        if form.is_valid():
+            ut = UserTeam()
+            ut.team_name = form.cleaned_data['team_name']
+            ut.user = User.objects.get(id=request.POST['user_id'])
+            ut.save()
+
+        return HttpResponseRedirect('/')
+    else:
+        # If this is a GET (or any other) request, create the form
+        form = CreateTeamForm()
+
+    return render(request, 'football/team_create.html', {'form': form })
+
+def team_detail(request, pk):
+
+    # Get the team object
+    team = get_object_or_404(UserTeam, pk=pk)
+
+    return render(request, 'football/team_detail.html', { 'team': team })
+
+
+def add_player_to_team(request, player_id):
+
+    if request.method == 'POST':
+        # add players to selected teams
+        for data in request.POST:
+            if data != 'csrfmiddlewaretoken':
+                up = UserPlayer()
+                up.fantasy_team = UserTeam.objects.get(id=data)
+                up.player = Player.objects.get(player_id=player_id)
+                up.save()
+
+    return HttpResponseRedirect('/')
 
 def players_quarterbacks(request, year="2016", phase="All", week="All"):
     """ Listing of quarterbacks """
@@ -121,11 +163,14 @@ def players_widereceivers(request, year="2016", phase="All", week="All"):
                 'week': week,
                 'stats': stats })
 
-class TeamListView(generic.ListView):
+class NflListView(generic.ListView):
     model = Team
+    template_name = 'football/nfl_team_list.html'
+
+class NflDetailView(generic.DetailView):
+    model = Team
+    template_name = 'football/nfl_team_detail.html'
 
 class PlayerListView(generic.ListView):
     model = Player
 
-class TeamDetailView(generic.DetailView):
-    model = Team
