@@ -3,13 +3,15 @@
 {% block tablecontent %}
 	<tr>
 		<th>Player Name</th>
+		<th>Fantasy Points</th>
+		<th>PPR Points</th>
 		<th><a href="{{ request.path }}?sort=passing_yds">Passing Yards</a></th>
 		<th><a href="{{ request.path }}?sort=passing_att">Passing Attempts</a></th>
 		<th><a href="{{ request.path }}?sort=passing_cmp">Passing Completions</a></th>
 		<th><a href="{{ request.path }}?sort=passing_int">Interceptions</a></th>
 		<th><a href="{{ request.path }}?sort=passing_sk">Sacks</a></th>
 	</tr>
-	{% for pp in stats %}
+	{% for pp, f, p in stats %}
 	<tr>
 		<td>
 			{% if user.is_authenticated %}
@@ -28,16 +30,17 @@
 
 						<div class="modal-body">
 							<div class="container-fluid">
-							<form class="form-vertical" action="{% url 'add-to-team' pp.player.player_id %}" method="POST">
-								{% csrf_token %}
-								{% for team in user.userteam_set.all %}
-								<div class="checkbox">
-									<input type="checkbox" name="{{ team.id }}" value="">{{ team }}</input>
-								</div>
-								{% endfor %}
-
-								<button type="submit" class="btn btn-primary" style="float: right">Add</button>
-							</form>
+								<form id="form-{{ pp.player.player_id }}" class="form-vertical" action="" method="POST">
+									{% csrf_token %}
+									<div name="checkboxes-{{ pp.player.player_id }}">
+										{% for team in user.userteam_set.all %}
+										<div class="checkbox">
+											<input type="checkbox" name="{{ team.id }}" value="">{{ team }}</input>
+										</div>
+										{% endfor %}
+									</div>
+									<button type="submit" class="btn btn-primary" style="float: right">Add</button>
+								</form>
 							</div>
 						</div>
 
@@ -48,10 +51,25 @@
 				</div> <!-- modal-dialog -->
 			</div> <!-- modal fade -->
 
+			<script type="text/javascript">
+				$('#form-{{ pp.player.player_id }}').on('submit', function(event) {
+					event.preventDefault();
+					add_player_to_team(
+							"{{ pp.player.player_id }}",
+							"{% url 'add-to-team' pp.player.player_id %}",
+							"{{ csrf_token }}"
+					);
+					
+					$('#addModal-{{ pp.player.player_id}} ').modal('hide');
+				});
+			</script>
+
 			{% else %}
 			{{ pp.player }}
 			{% endif %}
 		</td>
+		<td>{{ f }}</td>
+		<td>{{ p }}</td>
 		<td>{{ pp.passing_yds }}</td>
 		<td>{{ pp.passing_att }}</td>
 		<td>{{ pp.passing_cmp }}</td>

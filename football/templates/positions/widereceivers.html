@@ -3,11 +3,13 @@
 {% block tablecontent %}
 	<tr>
 		<th>Player Name</th>
+		<th>Fantasy Points</th>
+		<th>PPR Points</th>
 		<th><a href="{{ request.path }}?sort=receiving_yds">Receiving Yards</a></th>
 		<th><a href="{{ request.path }}?sort=receiving_tar">Receiving Targets</a></th>
 		<th><a href="{{ request.path }}?sort=receiving_tds">Receiving TDs</a></th>
 	</tr>
-	{% for pp in stats %}
+	{% for pp, f, p in stats %}
 	<tr>
 		<td>
 			{% if user.is_authenticated %}
@@ -26,16 +28,17 @@
 
 						<div class="modal-body">
 							<div class="container-fluid">
-							<form class="form-vertical" action="{% url 'add-to-team' pp.player.player_id %}" method="POST">
-								{% csrf_token %}
-								{% for team in user.userteam_set.all %}
-								<div class="checkbox">
-									<input type="checkbox" name="{{ team.id }}" value="">{{ team }}</input>
-								</div>
-								{% endfor %}
-
-								<button type="submit" class="btn btn-primary" style="float: right">Add</button>
-							</form>
+								<form id="form-{{ pp.player.player_id }}" class="form-vertical" action="{% url 'add-to-team' pp.player.player_id %}" method="POST">
+									{% csrf_token %}
+									<div name="checkboxes-{{ pp.player.player_id }}">
+										{% for team in user.userteam_set.all %}
+										<div class="checkbox">
+											<input type="checkbox" name="{{ team.id }}" value="{{ team }}">{{ team }}</input>
+										</div>
+										{% endfor %}
+									</div>
+									<button type="submit" class="btn btn-primary" style="float: right">Add</button>
+								</form>
 							</div>
 						</div>
 
@@ -46,10 +49,25 @@
 				</div> <!-- modal-dialog -->
 			</div> <!-- modal fade -->
 
+			<script type="text/javascript">
+				$('#form-{{ pp.player.player_id }}').on('submit', function(event) {
+					event.preventDefault();
+					add_player_to_team(
+							"{{ pp.player.player_id }}",
+							"{% url 'add-to-team' pp.player.player_id %}",
+							"{{ csrf_token }}"
+					);
+					
+					$('#addModal-{{ pp.player.player_id}} ').modal('hide');
+				});
+			</script>
+
 			{% else %}
 			{{ pp.player }}
 			{% endif %}
 		</td>
+		<td>{{ f }}</td>
+		<td>{{ p }}</td>
 		<td>{{ pp.receiving_yds }}</td>
 		<td>{{ pp.receiving_tar }}</td>
 		<td>{{ pp.receiving_tds }}</td>
