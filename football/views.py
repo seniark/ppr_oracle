@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views import generic
 from django.contrib.auth.models import User
 import nfldb
+import json
 
 from .models import Team, Player, UserTeam, UserPlayer
 from .forms import CreateTeamForm
@@ -88,14 +89,36 @@ def add_player_to_team(request, player_id):
 
     if request.method == 'POST':
         # add players to selected teams
-        for data in request.POST:
-            if data != 'csrfmiddlewaretoken':
-                up = UserPlayer()
-                up.fantasy_team = UserTeam.objects.get(id=data)
-                up.player = Player.objects.get(player_id=player_id)
-                up.save()
 
-    return HttpResponseRedirect('/')
+        team_ids = request.POST.getlist('team_ids[]')
+        response_data = {}
+
+        if team_ids:
+            for team_id in team_ids:
+                team = UserTeam.objects.get(id=team_id)
+                player = Player.objects.get(player_id=player_id)
+
+                # Check if this player has been added
+                if UserPlayer.objects.filter(fantasy_team__exact=team, player__exact=player).count() != 0:
+                    response_data[team.id] = '%s already added to %s' % (player, team)
+                else:
+                    up = UserPlayer()
+                    up.fantasy_team = UserTeam.objects.get(id=team_id)
+                    up.player = Player.objects.get(player_id=player_id)
+                    up.save()
+
+                    response_data[team.id] = '%s added to %s' % (player, team)
+
+        else:
+            response_data['result'] = 'No teams selected!'
+
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+    else:
+        return HttpResponse(
+                json.dumps({"nothing to see": "this isn't happening"}),
+                content_type="application/json"
+        )
 
 def players_quarterbacks(request, year="2016", phase="All", week="All"):
     """ Listing of quarterbacks """
