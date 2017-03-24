@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 import nfldb
 import json
 
-from .models import Team, Player, UserTeam, UserPlayer
+from .models import Team, Player, UserTeam, UserPlayer, NflDbHelper
 from .forms import CreateTeamForm
 
 # Create one instance of the db per process
@@ -120,17 +120,17 @@ def add_player_to_team(request, player_id):
                 content_type="application/json"
         )
 
-def players_quarterbacks(request, year="2016", phase="All", week="All"):
+def players_compute_points(request):
+    pass
+
+def players_quarterbacks(request, year="2016", phase="Regular", week="All"):
     """ Listing of quarterbacks """
-    (q, weeks) = build_query(year, phase, week)
-
-    # Apply additional filters
-    q.player(position='QB')
-
-    page = request.GET.get('page')
     sort = request.GET.get('sort', 'passing_yds')
+    (fantasy, weeks) = NflDbHelper.query(year, phase, week, 'QB', sort)
 
-    stats = players_paginate(q.sort(sort).as_aggregate(), page)
+    # Build the pager
+    page = request.GET.get('page')
+    stats = players_paginate(fantasy, page)
 
     return render(request, 'positions/quarterbacks.html',
             { 'position': 'Quarterbacks',
@@ -140,19 +140,17 @@ def players_quarterbacks(request, year="2016", phase="All", week="All"):
                 'phase': phase,
                 'weeks': weeks,
                 'week': week,
-                'stats': stats })
+                'stats': stats,
+            })
 
-def players_runningbacks(request, year="2016", phase="All", week="All"):
+def players_runningbacks(request, year="2016", phase="Regular", week="All"):
     """ Listing of running backs """
-    (q, weeks) = build_query(year, phase, week)
-
-    # Apply additional filters
-    q.player(position='RB')
-
-    page = request.GET.get('page')
     sort = request.GET.get('sort', 'rushing_yds')
+    (fantasy, weeks) = NflDbHelper.query(year, phase, week, 'RB', sort)
 
-    stats = players_paginate(q.sort(sort).as_aggregate(), page)
+    # Build the pager
+    page = request.GET.get('page')
+    stats = players_paginate(fantasy, page)
 
     return render(request, 'positions/runningbacks.html', 
             { 'position': 'Running Backs',
@@ -164,17 +162,14 @@ def players_runningbacks(request, year="2016", phase="All", week="All"):
                 'week': week,
                 'stats': stats })
 
-def players_widereceivers(request, year="2016", phase="All", week="All"):
+def players_widereceivers(request, year="2016", phase="Regular", week="All"):
     """ Listing of wide receivers """
-    (q, weeks) = build_query(year, phase, week)
-
-    # Apply additional filters
-    q.player(position='WR')
-
-    page = request.GET.get('page')
     sort = request.GET.get('sort', 'receiving_yds')
+    (fantasy, weeks) = NflDbHelper.query(year, phase, week, 'WR', sort)
 
-    stats = players_paginate(q.sort(sort).as_aggregate(), page)
+    # Build the pager
+    page = request.GET.get('page')
+    stats = players_paginate(fantasy, page)
 
     return render(request, 'positions/widereceivers.html', 
             { 'position': 'Wide Receivers',

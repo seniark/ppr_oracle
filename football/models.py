@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.http import Http404
+import nfldb
 
 class Team(models.Model):
     # Model Fields
@@ -118,6 +120,21 @@ class Player(models.Model):
     def __str__(self):
         return '%s, %s' % (self.last_name, self.first_name)
 
+    def stats(self, year, phase, week, sort='receiving_yds'):
+        db = nfldb.connect()
+        query = nfldb.Query(db)
+
+        query.game(season_year=year)
+        if phase != 'All':
+            query.game(season_type=phase)
+
+            if week != 'All':
+                query.game(week=week)
+
+        query.player(player_id=self.player_id)
+
+        return query.sort(sort).as_aggregate()
+
 
 class UserTeam(models.Model):
     """ User-created fantasy teams """
@@ -145,3 +162,54 @@ class UserPlayer(models.Model):
 
     def __str__(self):
         return '%s (%s)' % (self.player, self.fantasy_team)
+
+class NflDbHelper:
+    @staticmethod
+    def query(year, phase, week, position, sort):
+        db = nfldb.connect()
+        query = nfldb.Query(db)
+
+        query.game(season_year=year)
+
+        # Filter on season/week info
+        # And build the weeks structure
+        weeks = []
+        if phase != 'All':
+            if phase == 'Preseason':
+                weeks += ["All", "1", "2", "3", "4"]
+            elif phase == 'Regular':
+                weeks += ["All", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"]
+            elif phase == 'Postseason':
+                weeks += ["All", "1", "2", "3"]
+            else:
+                raise Http404("Page not found!")
+
+            query.game(season_type=phase)
+
+            if week != 'All':
+                query.game(week=week)
+
+        # Filter on position
+        query.player(position=position)
+
+        # Get the players and sorting method
+        aggregate_players = query.sort(sort).as_aggregate()
+
+        # Compute fantasy points
+        fantasy = []
+        for aggpp in aggregate_players:
+            passing_pts = aggpp.passing_yds / 25.0
+            rushing_pts = aggpp.rushing_yds / 10.0
+            receive_pts = aggpp.receiving_yds / 10.0
+
+            passing_pts += 4 * aggpp.passing_tds
+            rushing_pts += 6 * aggpp.rushing_tds
+            receive_pts += 6 * aggpp.receiving_tds
+
+            total_pts = passing_pts + rushing_pts + receive_pts
+
+            ppr_pts = total_pts + aggpp.passing_att + aggpp.rushing_att + aggpp.receiving_rec
+            fantasy.append((aggpp, total_pts, ppr_pts))
+
+        return (fantasy, weeks)
+

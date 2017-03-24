@@ -3,6 +3,8 @@
 {% block tablecontent %}
 	<tr>
 		<th>Player Name</th>
+		<th>Fantasy Points</th>
+		<th>PPR Points</th>
 		<th><a href="{{ request.path }}?sort=receiving_yds">Receiving Yards</a></th>
 		<th><a href="{{ request.path }}?sort=receiving_tar">Receiving Targets</a></th>
 		<th><a href="{{ request.path }}?sort=receiving_tds">Receiving TDs</a></th>
@@ -11,7 +13,7 @@
 		<th><a href="{{ request.path }}?sort=rushing_tds">Rushing TDs</a></th>
 		<th><a href="{{ request.path }}?sort=rushing_loss_yds">Rushing Loss Yards</a></th>
 	</tr>
-	{% for pp in stats %}
+	{% for pp, f, p in stats %}
 	<tr>
 		<td>
 			{% if user.is_authenticated %}
@@ -68,6 +70,8 @@
 			{{ pp.player }}
 			{% endif %}
 		</td>
+		<td>{{ f }}</td>
+		<td>{{ p }}</td>
 		<td>{{ pp.receiving_yds }}</td>
 		<td>{{ pp.receiving_tar }}</td>
 		<td>{{ pp.receiving_tds }}</td>

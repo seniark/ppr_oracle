@@ -12,6 +12,7 @@ urlpatterns = [
 
         url(r'^players/$', views.PlayerListView.as_view(), name='players'),
         url(r'^players/(?P<player_id>\d{2}-\d{7})/addtoteam/$', views.add_player_to_team, name='add-to-team'),
+        url(r'^players/computepoints/$', views.players_compute_points, name='compute-points'),
 
         url(r'^players/quarterbacks/$', views.players_quarterbacks, name='pos-qb'),
         url(r'^players/quarterbacks/(?P<year>[0-9]{4})/$', views.players_quarterbacks, name='pos-qb'),
