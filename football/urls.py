@@ -28,4 +28,9 @@ urlpatterns = [
         url(r'^players/widereceivers/(?P<year>[0-9]{4})/$', views.players_widereceivers, name='pos-wr'),
         url(r'^players/widereceivers/(?P<year>[0-9]{4})/(?P<phase>\w+)/$', views.players_widereceivers, name='pos-wr'),
         url(r'^players/widereceivers/(?P<year>[0-9]{4})/(?P<phase>\w+)/(?P<week>(\d+|All))/$', views.players_widereceivers, name='pos-wr'),
+
+        url(r'^players/tightends/$', views.players_tightends, name='pos-te'),
+        url(r'^players/tightends/(?P<year>[0-9]{4})/$', views.players_tightends, name='pos-te'),
+        url(r'^players/tightends/(?P<year>[0-9]{4})/(?P<phase>\w+)/$', views.players_tightends, name='pos-te'),
+        url(r'^players/tightends/(?P<year>[0-9]{4})/(?P<phase>\w+)/(?P<week>(\d+|All))/$', views.players_tightends, name='pos-te'),
 ]

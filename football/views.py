@@ -132,7 +132,7 @@ def players_quarterbacks(request, year="2016", phase="Regular", week="All"):
     page = request.GET.get('page')
     stats = players_paginate(fantasy, page)
 
-    return render(request, 'positions/quarterbacks.html',
+    return render(request, 'positions/passing.html',
             { 'position': 'Quarterbacks',
                 'urlId': 'pos-qb',
                 'page': 'positions',
@@ -152,7 +152,7 @@ def players_runningbacks(request, year="2016", phase="Regular", week="All"):
     page = request.GET.get('page')
     stats = players_paginate(fantasy, page)
 
-    return render(request, 'positions/runningbacks.html', 
+    return render(request, 'positions/receiving.html', 
             { 'position': 'Running Backs',
                 'urlId': 'pos-rb',
                 'page': 'positions',
@@ -171,9 +171,28 @@ def players_widereceivers(request, year="2016", phase="Regular", week="All"):
     page = request.GET.get('page')
     stats = players_paginate(fantasy, page)
 
-    return render(request, 'positions/widereceivers.html', 
+    return render(request, 'positions/receiving.html', 
             { 'position': 'Wide Receivers',
                 'urlId': 'pos-wr',
+                'page': 'positions',
+                'year': year,
+                'phase': phase,
+                'weeks': weeks,
+                'week': week,
+                'stats': stats })
+
+def players_tightends(request, year="2016", phase="Regular", week="All"):
+    """ Listing of wide receivers """
+    sort = request.GET.get('sort', 'ppr')
+    (fantasy, weeks) = NflDbHelper.query(year, phase, week, 'TE', sort)
+
+    # Build the pager
+    page = request.GET.get('page')
+    stats = players_paginate(fantasy, page)
+
+    return render(request, 'positions/receiving.html', 
+            { 'position': 'Tight-Ends',
+                'urlId': 'pos-te',
                 'page': 'positions',
                 'year': year,
                 'phase': phase,
