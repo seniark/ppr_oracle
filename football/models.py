@@ -193,7 +193,10 @@ class NflDbHelper:
         query.player(position=position)
 
         # Get the players and sorting method
-        aggregate_players = query.sort(sort).as_aggregate()
+        if sort !='fantasy' and sort != 'ppr':
+            aggregate_players = query.sort(sort).as_aggregate()
+        else:
+            aggregate_players = query.as_aggregate()
 
         # Compute fantasy points
         fantasy = []
@@ -210,6 +213,12 @@ class NflDbHelper:
 
             ppr_pts = total_pts + aggpp.passing_att + aggpp.rushing_att + aggpp.receiving_rec
             fantasy.append((aggpp, total_pts, ppr_pts))
+
+        # if fantasy points or ppr points sort request, do that now
+        if sort == 'fantasy':
+            fantasy.sort(key=lambda tup: tup[1], reverse=True) # Sort on regular rankings
+        elif sort == 'ppr':
+            fantasy.sort(key=lambda tup: tup[2], reverse=True) # Sort on ppr rankings
 
         return (fantasy, weeks)
 

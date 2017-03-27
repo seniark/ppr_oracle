@@ -125,7 +125,7 @@ def players_compute_points(request):
 
 def players_quarterbacks(request, year="2016", phase="Regular", week="All"):
     """ Listing of quarterbacks """
-    sort = request.GET.get('sort', 'passing_yds')
+    sort = request.GET.get('sort', 'ppr')
     (fantasy, weeks) = NflDbHelper.query(year, phase, week, 'QB', sort)
 
     # Build the pager
@@ -145,7 +145,7 @@ def players_quarterbacks(request, year="2016", phase="Regular", week="All"):
 
 def players_runningbacks(request, year="2016", phase="Regular", week="All"):
     """ Listing of running backs """
-    sort = request.GET.get('sort', 'rushing_yds')
+    sort = request.GET.get('sort', 'ppr')
     (fantasy, weeks) = NflDbHelper.query(year, phase, week, 'RB', sort)
 
     # Build the pager
@@ -164,7 +164,7 @@ def players_runningbacks(request, year="2016", phase="Regular", week="All"):
 
 def players_widereceivers(request, year="2016", phase="Regular", week="All"):
     """ Listing of wide receivers """
-    sort = request.GET.get('sort', 'receiving_yds')
+    sort = request.GET.get('sort', 'ppr')
     (fantasy, weeks) = NflDbHelper.query(year, phase, week, 'WR', sort)
 
     # Build the pager

@@ -3,6 +3,14 @@
 {% block content %}
 <h1>Players</h1>
 
+<form class="form-inline">
+	<div class="form-group">
+		<label class="sr-only" for="player">Player:</label>
+		<input type="text" class="form-control" id="player" placeholder="Enter name of player to search">
+	</div>
+	<button type="submit" class="btn btn-default">Search</button>
+</form>
+
 {% if player_list %}
 <ul>
 	{% for player in player_list %}
