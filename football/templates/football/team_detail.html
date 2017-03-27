@@ -5,8 +5,105 @@
 	<h1>{{ team }}</h1>
 </div>
 
-{% for player in team.userplayer_set.all %}
-	{{ player }} <br/>
-{% endfor %}
+<div class="container-fluid">
+	<div id="alert_placeholder"></div>
+</div>
 
+<h4>Quarterbacks</h4>
+<div class="table-responsive">
+	<table class="table table-striped">
+		{% for pp, f, p in qbs %}
+		<tr>
+			<td>{{ pp.player }}</td>
+			<td>{{ p }}</td>
+			<td>{{ f }}</td>
+			<td>{{ pp.passing_yds }}</td>
+			<td>{{ pp.passing_att }}</td>
+			<td>{{ pp.passing_cmp }}</td>
+			<td>{{ pp.passing_int }}</td>
+			<td>{{ pp.passing_sk }}</td>
+		</tr>
+		{% endfor %}
+	</table>
+</div> <!-- table-responsive -->
+
+<h4>Running Backs</h4>
+<div class="table-responsive">
+	<table class="table table-striped">
+		{% for pp, f, p in rbs %}
+		<tr>
+			<td>{{ pp.player }}</td>
+			<td>{{ p }}</td>
+			<td>{{ f }}</td>
+			<td>{{ pp.receiving_yds }}</td>
+			<td>{{ pp.receiving_tar }}</td>
+			<td>{{ pp.receiving_tds }}</td>
+			<td>{{ pp.rushing_yds }}</td>
+			<td>{{ pp.rushing_att }}</td>
+			<td>{{ pp.rushing_tds }}</td>
+			<td>{{ pp.rushing_loss_yds }}</td>
+		</tr>
+		{% endfor %}
+	</table>
+</div> <!-- table-responsive -->
+
+<h4>Wide Receivers</h4>
+<div class="table-responsive">
+	<table class="table table-striped">
+		{% for pp, f, p in wrs %}
+		<tr>
+			<td>{{ pp.player }}</td>
+			<td>{{ p }}</td>
+			<td>{{ f }}</td>
+			<td>{{ pp.receiving_yds }}</td>
+			<td>{{ pp.receiving_tar }}</td>
+			<td>{{ pp.receiving_tds }}</td>
+			<td>{{ pp.rushing_yds }}</td>
+			<td>{{ pp.rushing_att }}</td>
+			<td>{{ pp.rushing_tds }}</td>
+			<td>{{ pp.rushing_loss_yds }}</td>
+		</tr>
+		{% endfor %}
+	</table>
+</div> <!-- table-responsive -->
+
+<h4>Tight-Ends</h4>
+<div class="table-responsive">
+	<table class="table table-striped">
+		{% for pp, f, p in tes %}
+		<tr>
+			<td>{{ pp.player }}</td>
+			<td>{{ p }}</td>
+			<td>{{ f }}</td>
+			<td>{{ pp.receiving_yds }}</td>
+			<td>{{ pp.receiving_tar }}</td>
+			<td>{{ pp.receiving_tds }}</td>
+			<td>{{ pp.rushing_yds }}</td>
+			<td>{{ pp.rushing_att }}</td>
+			<td>{{ pp.rushing_tds }}</td>
+			<td>{{ pp.rushing_loss_yds }}</td>
+		</tr>
+		{% endfor %}
+	</table>
+</div> <!-- table-responsive -->
+
+<h4>Other Players</h4>
+<div class="table-responsive">
+	<table class="table table-striped">
+		{% for pp, f, p in oth %}
+		<tr>
+			<td>{{ pp.player }}</td>
+			<td>{{ p }}</td>
+			<td>{{ f }}</td>
+			<td>{{ pp.receiving_yds }}</td>
+			<td>{{ pp.receiving_tar }}</td>
+			<td>{{ pp.receiving_tds }}</td>
+			<td>{{ pp.rushing_yds }}</td>
+			<td>{{ pp.rushing_att }}</td>
+			<td>{{ pp.rushing_tds }}</td>
+			<td>{{ pp.rushing_loss_yds }}</td>
+		</tr>
+		{% endfor %}
+	</table>
+</div> <!-- table-responsive -->
 {% endblock %}
