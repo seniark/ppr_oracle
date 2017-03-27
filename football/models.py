@@ -21,33 +21,35 @@ class Team(models.Model):
 
     def get_players(self):
         players = []
-        players.append(self.player_set.filter(position__exact='QB'))
-        players.append(self.player_set.filter(position__exact='RB'))
-        players.append(self.player_set.filter(position__exact='WR'))
-        players.append(self.player_set.filter(position__exact='TE'))
-        players.append(self.player_set.filter(position__exact='K'))
-        players.append(self.player_set.filter(position__exact='C'))
-        players.append(self.player_set.filter(position__exact='CB'))
-        players.append(self.player_set.filter(position__exact='DB'))
-        players.append(self.player_set.filter(position__exact='DE'))
-        players.append(self.player_set.filter(position__exact='DL'))
-        players.append(self.player_set.filter(position__exact='FB'))
-        players.append(self.player_set.filter(position__exact='FS'))
-        players.append(self.player_set.filter(position__exact='G'))
-        players.append(self.player_set.filter(position__exact='ILB'))
-        players.append(self.player_set.filter(position__exact='LB'))
-        players.append(self.player_set.filter(position__exact='LS'))
-        players.append(self.player_set.filter(position__exact='MLB'))
-        players.append(self.player_set.filter(position__exact='NT'))
-        players.append(self.player_set.filter(position__exact='OG'))
-        players.append(self.player_set.filter(position__exact='OL'))
-        players.append(self.player_set.filter(position__exact='OLB'))
-        players.append(self.player_set.filter(position__exact='OT'))
-        players.append(self.player_set.filter(position__exact='P'))
-        players.append(self.player_set.filter(position__exact='SAF'))
-        players.append(self.player_set.filter(position__exact='SS'))
-        players.append(self.player_set.filter(position__exact='T'))
-        players.append(self.player_set.filter(position__exact='UNK'))
+
+        for player in self.player_set.filter(position__exact='QB'):
+            stats = player.stats_now()
+            if len(stats) == 1:
+                players.append((player, stats[0]))
+            else:
+                players.append((player, stats))
+
+        for player in self.player_set.filter(position__exact='RB'):
+            stats = player.stats_now()
+            if len(stats) == 1:
+                players.append((player, stats[0]))
+            else:
+                players.append((player, stats))
+
+        for player in self.player_set.filter(position__exact='WR'):
+            stats = player.stats_now()
+            if len(stats) == 1:
+                players.append((player, stats[0]))
+            else:
+                players.append((player, stats))
+
+        for player in self.player_set.filter(position__exact='TE'):
+            stats = player.stats_now()
+            if len(stats) == 1:
+                players.append((player, stats[0]))
+            else:
+                players.append((player, stats))
+
 
         return players
 
@@ -119,6 +121,16 @@ class Player(models.Model):
 
     def __str__(self):
         return '%s, %s' % (self.last_name, self.first_name)
+
+    def stats_now(self):
+        db = nfldb.connect()
+        query = nfldb.Query(db)
+
+        query.game(season_year=2016)
+        query.game(season_type='Regular')
+        query.player(player_id=self.player_id)
+
+        return query.as_aggregate()
 
     def stats(self, year, phase, week, sort='receiving_yds'):
         db = nfldb.connect()

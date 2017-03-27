@@ -4,15 +4,36 @@
 <h1>{{ team.city }} {{team.name }}</h1>
 
 <div style="margin-left:20px;margin-top:20px">
-	<h4>Players ({{ team.player_set.count }})</h4>
+	<table class="table table-striped">
 
-	{% for position in team.get_players %}
-		{% for player in position %}
-			{% if forloop.counter0 == 0 %}
-				<h4>{{ player.position }}</h4>
-			{% endif %}
-			<a href="{{ player.profile_url }}">{{ player.full_name }}</a><br/>
+	<div class="table-responsive">
+		<tr>
+			<th>Player Name</th>
+			<th>Position</th>
+			<th>Passing Yards</th>
+			<th>Completions</th>
+			<th>Rushing Yards</th>
+			<th>Rushing Attempts</th>
+			<th>Rushing Touchdowns </td>
+			<th>Receiving Yards</th>
+			<th>Receiving Targets</th>
+			<th>Receiving Touchdowns</th>
+		</tr>
+		{% for player, stats in team.get_players %}
+			<tr>
+				<td><a href="{{ player.profile_url }}">{{ player.full_name }}</a></td>
+				<td>{{ player.position }}</td>
+				<td>{{ stats.passing_yds }}</td>
+				<td>{{ stats.passing_cmp }} / {{ stats.passing_att }}</td>
+				<td>{{ stats.rushing_yds }}</td>
+				<td>{{ stats.rushing_att }}</td>
+				<td>{{ stats.rushing_tds }}</td>
+				<td>{{ stats.receiving_yds }}</td>
+				<td>{{ stats.receiving_tar }}</td>
+				<td>{{ stats.receiving_tds }}</td>
+			</tr>
 		{% endfor %}
-	{% endfor %}
+	</table>
+	</div>
 </div>
 {% endblock %}

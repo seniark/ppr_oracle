@@ -9,99 +9,106 @@
 	<div id="alert_placeholder"></div>
 </div>
 
-<h4>Quarterbacks</h4>
 <div class="table-responsive">
 	<table class="table table-striped">
+		<tr>
+			<th>Player Name</th>
+			<th>Team</th>
+			<th>Position</th>
+			<th>PPR Points</th>
+			<th>Fantasy Points</th>
+			<th>Passing Yards</th>
+			<th>Completions</th>
+			<th>Rushing Yards</th>
+			<th>Rushing Attempts</th>
+			<th>Rushing Touchdowns </td>
+			<th>Receiving Yards</th>
+			<th>Receiving Targets</th>
+			<th>Receiving Touchdowns</th>
+		</tr>
 		{% for pp, f, p in qbs %}
 		<tr>
-			<td>{{ pp.player }}</td>
+			<td>{{ pp.player.full_name }}</td>
+			<td>{{ pp.player.team }}</td>
+			<td>{{ pp.player.position }}</td>
 			<td>{{ p }}</td>
 			<td>{{ f }}</td>
 			<td>{{ pp.passing_yds }}</td>
-			<td>{{ pp.passing_att }}</td>
-			<td>{{ pp.passing_cmp }}</td>
-			<td>{{ pp.passing_int }}</td>
-			<td>{{ pp.passing_sk }}</td>
+			<td>{{ pp.passing_cmp }} / {{ pp.passing_att }}</td>
+			<td>{{ pp.rushing_yds }}</td>
+			<td>{{ pp.rushing_att }}</td>
+			<td>{{ pp.rushing_tds }}</td>
+			<td>{{ pp.receiving_yds }}</td>
+			<td>{{ pp.receiving_tar }}</td>
+			<td>{{ pp.receiving_tds }}</td>
 		</tr>
 		{% endfor %}
-	</table>
-</div> <!-- table-responsive -->
-
-<h4>Running Backs</h4>
-<div class="table-responsive">
-	<table class="table table-striped">
 		{% for pp, f, p in rbs %}
 		<tr>
-			<td>{{ pp.player }}</td>
+			<td>{{ pp.player.full_name }}</td>
+			<td>{{ pp.player.team }}</td>
+			<td>{{ pp.player.position }}</td>
 			<td>{{ p }}</td>
 			<td>{{ f }}</td>
-			<td>{{ pp.receiving_yds }}</td>
-			<td>{{ pp.receiving_tar }}</td>
-			<td>{{ pp.receiving_tds }}</td>
+			<td>{{ pp.passing_yds }}</td>
+			<td>{{ pp.passing_cmp }} / {{ pp.passing_att }}</td>
 			<td>{{ pp.rushing_yds }}</td>
 			<td>{{ pp.rushing_att }}</td>
 			<td>{{ pp.rushing_tds }}</td>
-			<td>{{ pp.rushing_loss_yds }}</td>
+			<td>{{ pp.receiving_yds }}</td>
+			<td>{{ pp.receiving_tar }}</td>
+			<td>{{ pp.receiving_tds }}</td>
 		</tr>
 		{% endfor %}
-	</table>
-</div> <!-- table-responsive -->
-
-<h4>Wide Receivers</h4>
-<div class="table-responsive">
-	<table class="table table-striped">
 		{% for pp, f, p in wrs %}
 		<tr>
-			<td>{{ pp.player }}</td>
+			<td>{{ pp.player.full_name }}</td>
+			<td>{{ pp.player.team }}</td>
+			<td>{{ pp.player.position }}</td>
 			<td>{{ p }}</td>
 			<td>{{ f }}</td>
-			<td>{{ pp.receiving_yds }}</td>
-			<td>{{ pp.receiving_tar }}</td>
-			<td>{{ pp.receiving_tds }}</td>
+			<td>{{ pp.passing_yds }}</td>
+			<td>{{ pp.passing_cmp }} / {{ pp.passing_att }}</td>
 			<td>{{ pp.rushing_yds }}</td>
 			<td>{{ pp.rushing_att }}</td>
 			<td>{{ pp.rushing_tds }}</td>
-			<td>{{ pp.rushing_loss_yds }}</td>
+			<td>{{ pp.receiving_yds }}</td>
+			<td>{{ pp.receiving_tar }}</td>
+			<td>{{ pp.receiving_tds }}</td>
 		</tr>
 		{% endfor %}
-	</table>
-</div> <!-- table-responsive -->
-
-<h4>Tight-Ends</h4>
-<div class="table-responsive">
-	<table class="table table-striped">
 		{% for pp, f, p in tes %}
 		<tr>
-			<td>{{ pp.player }}</td>
+			<td>{{ pp.player.full_name }}</td>
+			<td>{{ pp.player.team }}</td>
+			<td>{{ pp.player.position }}</td>
 			<td>{{ p }}</td>
 			<td>{{ f }}</td>
-			<td>{{ pp.receiving_yds }}</td>
-			<td>{{ pp.receiving_tar }}</td>
-			<td>{{ pp.receiving_tds }}</td>
+			<td>{{ pp.passing_yds }}</td>
+			<td>{{ pp.passing_cmp }} / {{ pp.passing_att }}</td>
 			<td>{{ pp.rushing_yds }}</td>
 			<td>{{ pp.rushing_att }}</td>
 			<td>{{ pp.rushing_tds }}</td>
-			<td>{{ pp.rushing_loss_yds }}</td>
+			<td>{{ pp.receiving_yds }}</td>
+			<td>{{ pp.receiving_tar }}</td>
+			<td>{{ pp.receiving_tds }}</td>
 		</tr>
 		{% endfor %}
-	</table>
-</div> <!-- table-responsive -->
-
-<h4>Other Players</h4>
-<div class="table-responsive">
-	<table class="table table-striped">
 		{% for pp, f, p in oth %}
 		<tr>
-			<td>{{ pp.player }}</td>
+			<td>{{ pp.player.full_name }}</td>
+			<td>{{ pp.player.team }}</td>
+			<td>{{ pp.player.position }}</td>
 			<td>{{ p }}</td>
 			<td>{{ f }}</td>
-			<td>{{ pp.receiving_yds }}</td>
-			<td>{{ pp.receiving_tar }}</td>
-			<td>{{ pp.receiving_tds }}</td>
+			<td>{{ pp.passing_yds }}</td>
+			<td>{{ pp.passing_cmp }} / {{ pp.passing_att }}</td>
 			<td>{{ pp.rushing_yds }}</td>
 			<td>{{ pp.rushing_att }}</td>
 			<td>{{ pp.rushing_tds }}</td>
-			<td>{{ pp.rushing_loss_yds }}</td>
+			<td>{{ pp.receiving_yds }}</td>
+			<td>{{ pp.receiving_tar }}</td>
+			<td>{{ pp.receiving_tds }}</td>
 		</tr>
 		{% endfor %}
 	</table>
