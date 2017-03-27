@@ -165,14 +165,7 @@ class UserPlayer(models.Model):
 
 class NflDbHelper:
     @staticmethod
-    def query(year, phase, week, position, sort):
-        db = nfldb.connect()
-        query = nfldb.Query(db)
-
-        query.game(season_year=year)
-
-        # Filter on season/week info
-        # And build the weeks structure
+    def weeks(phase):
         weeks = []
         if phase != 'All':
             if phase == 'Preseason':
@@ -184,6 +177,32 @@ class NflDbHelper:
             else:
                 raise Http404("Page not found!")
 
+        return weeks
+
+    @staticmethod
+    def computePoints(player):
+        passing_pts = player.passing_yds / 25.0
+        rushing_pts = player.rushing_yds / 10.0
+        receive_pts = player.receiving_yds / 10.0
+
+        passing_pts += 4 * player.passing_tds
+        rushing_pts += 6 * player.rushing_tds
+        receive_pts += 6 * player.receiving_tds
+
+        total_pts = passing_pts + rushing_pts + receive_pts
+        ppr_pts = total_pts + player.passing_att + player.rushing_att + player.receiving_rec
+
+        return (total_pts, ppr_pts)
+
+    @staticmethod
+    def query(year, phase, week, position, sort):
+        db = nfldb.connect()
+        query = nfldb.Query(db)
+
+        query.game(season_year=year)
+
+        # Filter on season/week info
+        if phase != 'All':
             query.game(season_type=phase)
 
             if week != 'All':
@@ -201,17 +220,7 @@ class NflDbHelper:
         # Compute fantasy points
         fantasy = []
         for aggpp in aggregate_players:
-            passing_pts = aggpp.passing_yds / 25.0
-            rushing_pts = aggpp.rushing_yds / 10.0
-            receive_pts = aggpp.receiving_yds / 10.0
-
-            passing_pts += 4 * aggpp.passing_tds
-            rushing_pts += 6 * aggpp.rushing_tds
-            receive_pts += 6 * aggpp.receiving_tds
-
-            total_pts = passing_pts + rushing_pts + receive_pts
-
-            ppr_pts = total_pts + aggpp.passing_att + aggpp.rushing_att + aggpp.receiving_rec
+            (total_pts, ppr_pts) = NflDbHelper.computePoints(aggpp)
             fantasy.append((aggpp, total_pts, ppr_pts))
 
         # if fantasy points or ppr points sort request, do that now
@@ -220,5 +229,34 @@ class NflDbHelper:
         elif sort == 'ppr':
             fantasy.sort(key=lambda tup: tup[2], reverse=True) # Sort on ppr rankings
 
-        return (fantasy, weeks)
+        return fantasy
+
+    @staticmethod
+    def players(year, players):
+        db = nfldb.connect()
+
+        qbs = []
+        rbs = []
+        wrs = []
+        tes = []
+        oth = []
+        for player in players:
+            query = nfldb.Query(db)
+            query.game(season_year=year)
+            query.player(player_id=player.player_id)
+            for aggpp in query.as_aggregate():
+                (total_pts, ppr_pts) = NflDbHelper.computePoints(aggpp)
+
+                if aggpp.player.position == nfldb.Enums.player_pos['QB']:
+                    qbs.append((aggpp, total_pts, ppr_pts))
+                elif aggpp.player.position == nfldb.Enums.player_pos['RB']:
+                    rbs.append((aggpp, total_pts, ppr_pts))
+                elif aggpp.player.position == nfldb.Enums.player_pos['WR']:
+                    wrs.append((aggpp, total_pts, ppr_pts))
+                elif aggpp.player.position == nfldb.Enums.player_pos['TE']:
+                    tes.append((aggpp, total_pts, ppr_pts))
+                else:
+                    oth.append((aggpp, total_pts, ppr_pts))
+
+        return (qbs, rbs, wrs, tes, oth)
 
