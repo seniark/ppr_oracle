@@ -43,7 +43,6 @@
 
 			<script type="text/javascript">
 				$('#add-{{ pp.player.player_id }}').on('click', function(event) {
-					event.preventDefault();
 					add_player_to_team(
 							"{{ pp.player.player_id }}",
 							"{% url 'add-to-team' pp.player.player_id %}",

@@ -26,7 +26,6 @@ function csrfSafeMethod(method) {
 }
 
 function get_checked_boxes(group) {
-	console.log(group);
 	var container = document.getElementsByName(group)[0];
 	var checkboxes = container.getElementsByTagName("INPUT");
 	var checked = [];
