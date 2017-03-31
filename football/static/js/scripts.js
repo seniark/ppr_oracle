@@ -3,6 +3,28 @@
  * Common scripts used by PPR Oracle
  */
 
+// using jQuery
+function getCookie(name) {
+	var cookieValue = null;
+	if (document.cookie && document.cookie != '') {
+		var cookies = document.cookie.split(';');
+		for (var i = 0; i < cookies.length; i++) {
+			var cookie = jQuery.trim(cookies[i]);
+			// Does this cookie string begin with the name we want?
+			if (cookie.substring(0, name.length + 1) == (name + '=')) {
+				cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+				break;
+			}
+		}
+	}
+	return cookieValue;
+}
+
+function csrfSafeMethod(method) {
+	// these HTTP methods do not require CSRF protection
+	return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
 function get_checked_boxes(group) {
 	console.log(group);
 	var container = document.getElementsByName(group)[0];
@@ -35,7 +57,7 @@ function add_player_to_team(player_id, post_url, csrf_token) {
 				if (json.hasOwnProperty(key)) {
 					$('#alert_placeholder').append(
 						"<div id='alertdiv" + key + "' class='alert alert-success'>" +
-						"<a class='close' data-dismiss='alert'>x</a>" + 
+						"<a class='close' data-dismiss='alert'>&times;</a>" + 
 						"<span>" + json[key] + "</span></div>"
 					);
 				}

@@ -95,6 +95,24 @@ def team_detail(request, pk):
         'oth': oth,
     })
 
+def reload_team_detail(request, pk):
+
+    # Get the team object
+    team = get_object_or_404(UserTeam, pk=pk)
+
+    # Get the players
+    year = 2016
+    (qbs, rbs, wrs, tes, oth) = NflDbHelper.players(year, team.userplayer_set.all())
+
+    return render(request,'football/reload_team_detail.html', {
+        'team': team,
+        'qbs': qbs,
+        'rbs': rbs,
+        'wrs': wrs,
+        'tes': tes,
+        'oth': oth,
+    })
+
 
 def add_player_to_team(request, player_id):
 
@@ -131,8 +149,29 @@ def add_player_to_team(request, player_id):
                 content_type="application/json"
         )
 
-def players_compute_points(request):
-    pass
+def del_player_from_team(request, player_id):
+
+    if request.method == 'POST':
+        # remove player from team
+
+        team_id = request.POST.get('team_id')
+        response_data = {}
+
+        if team_id:
+            team = UserTeam.objects.get(id=team_id)
+            player = Player.objects.get(player_id=player_id)
+            up = UserPlayer.objects.get(fantasy_team_id=team_id, player_id=player_id) 
+            up.delete()
+
+            response_data[team.id] = '%s removed from %s' % (player, team)
+
+        else:
+            response_data['result'] = 'No team found'
+
+        return HttpResponse(
+                json.dumps(response_data),
+                content_type="application/json",
+        )
 
 def players_quarterbacks(request, year="2016", phase="Regular", week="All"):
     """ Listing of quarterbacks """

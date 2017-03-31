@@ -9,10 +9,11 @@ urlpatterns = [
 
         url(r'^teams/create/$', views.team_create, name='team-create'),
         url(r'^teams/(?P<pk>\d+)/$', views.team_detail, name='team-detail'),
+        url(r'^teams/reload/(?P<pk>\d+)/$', views.reload_team_detail, name='reload-team-detail'),
 
         url(r'^players/$', views.PlayerListView.as_view(), name='players'),
         url(r'^players/(?P<player_id>\d{2}-\d{7})/addtoteam/$', views.add_player_to_team, name='add-to-team'),
-        url(r'^players/computepoints/$', views.players_compute_points, name='compute-points'),
+        url(r'^players/(?P<player_id>\d{2}-\d{7})/delfromteam/$', views.del_player_from_team, name='del-from-team'),
 
         url(r'^players/quarterbacks/$', views.players_quarterbacks, name='pos-qb'),
         url(r'^players/quarterbacks/(?P<year>[0-9]{4})/$', views.players_quarterbacks, name='pos-qb'),
